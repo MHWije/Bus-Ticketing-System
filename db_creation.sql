@@ -6,6 +6,21 @@ CREATE SCHEMA IF NOT EXISTS `ticketing_system` DEFAULT CHARACTER SET utf8 ;
 USE `ticketing_system` ;
 
 -- -----------------------------------------------------
+-- Table `ticketing_system`.`login`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `ticketing_system`.`login` (
+  `idlogin` INT(11) NOT NULL AUTO_INCREMENT ,
+  `username` VARCHAR(45) NULL DEFAULT NULL ,
+  `password` VARCHAR(45) NULL DEFAULT NULL ,
+  `email` VARCHAR(100) NULL DEFAULT NULL ,
+  `type` VARCHAR(45) NULL DEFAULT NULL ,
+  PRIMARY KEY (`idlogin`) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
 -- Table `ticketing_system`.`passenger`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `ticketing_system`.`passenger` (
@@ -28,8 +43,15 @@ CREATE  TABLE IF NOT EXISTS `ticketing_system`.`regular_passenger` (
   `idregular_passenger` INT(11) NOT NULL AUTO_INCREMENT ,
   `city` VARCHAR(45) NULL DEFAULT NULL ,
   `passenger_id` INT(11) NOT NULL ,
+  `login_id` INT(11) NULL DEFAULT NULL ,
   PRIMARY KEY (`idregular_passenger`) ,
   INDEX `passenger_id` (`passenger_id` ASC) ,
+  INDEX `R_login_id` (`login_id` ASC) ,
+  CONSTRAINT `R_login_id`
+    FOREIGN KEY (`login_id` )
+    REFERENCES `ticketing_system`.`login` (`idlogin` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `passenger_id`
     FOREIGN KEY (`passenger_id` )
     REFERENCES `ticketing_system`.`passenger` (`idpassenger` )
@@ -249,6 +271,26 @@ CREATE  TABLE IF NOT EXISTS `ticketing_system`.`reader_reads_token` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `ticketing_system`.`transport_managers`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `ticketing_system`.`transport_managers` (
+  `idtransport_managers` INT(11) NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NULL DEFAULT NULL ,
+  `area` VARCHAR(45) NULL DEFAULT NULL ,
+  `login_id` INT(11) NULL DEFAULT NULL ,
+  PRIMARY KEY (`idtransport_managers`) ,
+  INDEX `login_id` (`login_id` ASC) ,
+  CONSTRAINT `login_id`
+    FOREIGN KEY (`login_id` )
+    REFERENCES `ticketing_system`.`login` (`idlogin` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
 
 
