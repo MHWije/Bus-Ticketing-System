@@ -28,25 +28,40 @@ public class account {
     }
     
     
-    //retrieve room table records
-    public ResultSet accountRecords()
+    /**
+     * 
+     * @param id
+     * @return account_model object
+     */
+    public account_model accountRecord(int id)
     {
+        account_model a = new account_model();
         try {
-            String str="SELECT * FROM `account`";
+            String str="SELECT * FROM `account` WHERE idaccount='"+id+"'";
             ps=conn.prepareStatement(str);
             rs=ps.executeQuery();
+            
+            while(rs.next()){
+                a.setRegular_token(Integer.parseInt(rs.getString("regular_token")));
+                a.setBalance(Double.parseDouble(rs.getString("balance")));
+            }
+            
         } catch (Exception e) {
             System.err.println(e);
         }
-        return rs;
+        return a;
     }
     
-    //Add Room details 
-    public boolean addAccount(account_model a){
+    /**
+     * 
+     * @param a
+     * @return status 
+     */
+    public boolean RechargeAccount(account_model a){
         boolean status = false;  
         try {
-            String insert = "INSERT INTO `account`(regular_token,balance,created_date) "
-                    + "VALUES('"+a.getRegular_token()+"','"+a.getBalance()+"','"+a.getDate()+"')";
+            String insert = "UPDATE `account` SET balance='"+a.getBalance()+"'"
+                    + "WHERE regular_token='"+a.getRegular_token()+"'";
             ps = conn.prepareStatement(insert);
             ps.execute();
             status = true;

@@ -29,8 +29,8 @@
         <div style="width:22%;height:562px;background-color: #006600;float: left">
             <ul>
                 <li><a class="active" href="#home">Home</a></li>
-                <li><a href="#insights">Recharge</a></li>
-                <li><a href="#profile">Profile</a></li>
+                <li><a href="Recharge.jsp">Recharge</a></li>
+                <li><a href="Balance.jsp">Balance</a></li>
             </ul>
         </div>
         
