@@ -38,12 +38,12 @@ public class UserCtrl {
     {
         ArrayList<User> list = new ArrayList<User>();
         try {
-            String str = "SELECT `username`, `password`,`type` FROM `login` WHERE username='"+name+"' ";
+            String str = "SELECT `idlogin`,`username`, `password`,`type` FROM `login` WHERE username='"+name+"' ";
             ps = con.prepareStatement(str);
             rs = ps.executeQuery();
             
             while (rs.next()) {
-                list.add(new User(rs.getString("username"),rs.getString("password"),rs.getString("type")));
+                list.add(new User(Integer.parseInt(rs.getString("idlogin")),rs.getString("username"),rs.getString("password"),rs.getString("type")));
             } 
         } catch (Exception e) {
         }

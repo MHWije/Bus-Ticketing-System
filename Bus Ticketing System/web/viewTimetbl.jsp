@@ -14,6 +14,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link rel="stylesheet" type="text/css" href="style.css">
+        
+        <script>
+            function logout(){
+                <% 
+                    if(request.getParameter("logout") != null) {
+                        session.setAttribute("idLogin", 0);
+                    session.setAttribute("username", 0);
+                    response.sendRedirect("Login.jsp");
+                    }
+                %>
+            }
+            
+        </script>
+        
     </head>
 
     <body style="margin:0 0 0 0px">
@@ -24,15 +38,16 @@
                 <img src="profile-logo.png" width="70px" height="70px"/>
             </div>
             <div name="logout" style="float:right;margin-top:30px;margin-right: 8px">
-                <input class="button" type="button" value="Logout" name="logout" />
+                <form name="logout" action="Balance.jsp" method="POST">
+                    <input class="button" type="submit" value="Logout" name="logout" onclick="logout()"/>
+                </form>
             </div>
         </div>
         <div>
             <div style="width:22%;height:562px;background-color: #006600;float: left">
                 <ul>
-                    <li><a class="active" href="#home">Home</a></li>
-                    <li><a href="#insights">Insights</a></li>
-                    <li><a href="#timetable">Time Table</a></li>
+                    <li><a href="Insights.jsp">Insights</a></li>
+                    <li><a class="active" href="viewTimetbl.jsp">Time Table</a></li>
                     <li><a href="#profile">Profile</a></li>
                 </ul>
             </div>

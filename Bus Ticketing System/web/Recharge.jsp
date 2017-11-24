@@ -19,6 +19,19 @@
         <title>Recharge Account</title>
 
         <link rel="stylesheet" type="text/css" href="style.css">
+        
+        <script>
+            function logout(){
+                <% 
+                    if(request.getParameter("logout") != null) {
+                        session.setAttribute("idLogin", 0);
+                    session.setAttribute("username", 0);
+                    response.sendRedirect("Login.jsp");
+                    }
+                %>
+            }
+            
+        </script>
 
     </head>
     <body style="margin:0 0 0 0px">
@@ -29,15 +42,17 @@
                 <img src="profile-logo.png" width="70px" height="70px"/>
             </div>
             <div name="logout" style="float:right;margin-top:30px;margin-right: 8px">
-                <input class="button" type="button" value="Logout" name="logout" />
+                <form name="logout" action="Balance.jsp" method="POST">
+                    <input class="button" type="submit" value="Logout" name="logout" onclick="logout()"/>
+                </form>
             </div>
         </div>
         <div>
             <div style="width:22%;height:562px;background-color: #006600;float: left">
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a class="active" href="Recharge.jsp">Recharge</a></li>
                     <li><a href="Balance.jsp">Balance</a></li>
+                    <li><a class="active" href="Recharge.jsp">Recharge</a></li>
+                    <li><a href="#profile">Profile</a></li>
                 </ul>
             </div>
 
@@ -46,8 +61,6 @@
 
             <%
 
-                session.setAttribute("idLogin", 1);
-                
                 account_model acc = new account_model();
                 account a = new account();
                 regular_passenger rp = new regular_passenger();
@@ -63,25 +76,23 @@
                 int PID = rp.getPassengerID(Integer.parseInt(session.getAttribute("idLogin").toString()));
                 String name = p.PassengerName(PID);
 
-                
                 Date date = new Date();
-                
+
                 if (request.getParameter("submit") != null) {
 
                     acc.setRegular_token(token_number);
-                    acc.setBalance(Double.parseDouble(request.getParameter("amount"))+balance);
+                    acc.setBalance(Double.parseDouble(request.getParameter("amount")) + balance);
                     a.RechargeAccount(acc);
-                    
+
                     pmodel.setAccount(token_number);
                     pmodel.setDate(date.toString());
                     pmodel.setType("regular_token");
                     pmodel.setCardNumber(Integer.parseInt(request.getParameter("card")));
                     pmodel.setRecharge_amount(Double.parseDouble(request.getParameter("amount")));
-                    
+
                     pay.RechargeAccount(pmodel);
                 }
 
-                
 
             %>
 
